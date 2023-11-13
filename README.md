@@ -9,7 +9,10 @@ This project aims to integrate Machine Learning techniques with a variety of bas
 The end-product will be deploying the model via Streamlit, where this UI will display current NBA games and the model's subsequent predictions for each game. 
            
 ### Key Features:
-- Historical data is retrieved from GitHub, which is NBA Box Score data from 2016-2022, originally scraped from Basketball Reference Seasons
+- Historical data is retrieved from GitHub, which is a csv file of NBA Box Score data from 2016-2022, originally scraped from Basketball Reference Seasons.
+            
+  - Link: https://github.com/dataquestio/project-walkthroughs/blob/master/nba_games/README.md
+                      - CSV file at the bottom of the page.
 - NBA Box Score Data from 2022-2023 season will serve as testing data, which will be scraped from Basketball Reference
 - EDA, Preprocessing, and Feature Engineering will be performed before developing most effective model; trained on historical data (2016-2022).
 - Test model on 2022-2023 NBA data, deploy model on 2023-2024 NBA games
