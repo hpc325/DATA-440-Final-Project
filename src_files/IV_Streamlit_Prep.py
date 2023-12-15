@@ -5,9 +5,11 @@ def execute_streamlit_data(clean_data,date,num_games,return_averages=False,retur
                            return_basic=False,return_advanced=False):
     '''
         Pipeline to produce all the necessary data needed to show either averages or rolling averages data on streamlit
+
+        Return dictionary, where each key's values is the dataframe of the matchup between two individual teams.
     '''
     
-    if return_averages:
+    if return_averages: # Return averages dataframe for all teams for given date
         averages = execute_feature_engineering(clean_data,averages=True)
         averages_date = clean_data_for_streamlit(averages,date) # Subset both averages and rolling averages for the given data
         home_df = subset_home_and_away_teams(averages_date) # Separate home and away teams dataframes
@@ -21,7 +23,7 @@ def execute_streamlit_data(clean_data,date,num_games,return_averages=False,retur
             final_away_df = subset_basic_and_advanced_stats(away_df,advanced=True) 
         
         
-    elif return_rolling_averages:
+    elif return_rolling_averages: # Return rolling averages dataframe for all teams for given date
         rolling_averages = execute_feature_engineering(clean_data,num_games,rolling_averages=True)  # First calculate averages and rolling averages
         rolling_date = clean_data_for_streamlit(rolling_averages,date)
         home_df = subset_home_and_away_teams(rolling_date)
@@ -38,7 +40,7 @@ def execute_streamlit_data(clean_data,date,num_games,return_averages=False,retur
     num_games = len(get_matchups(clean_data,date)) # Number of games played on this date
     statistic_matchups = {} # Dictionaries that keep the statistics between the two teams for each matchup; since we need to visually change how to show stats on Streamlit
     for i in range(num_games): # or rolling_averages; it will be the same
-        statistic_matchups[i] = show_one_matchup(final_home_df,final_away_df,i)
+        statistic_matchups[i] = show_one_matchup(final_home_df,final_away_df,i)# i represents game id
         
     return statistic_matchups
 
@@ -46,9 +48,7 @@ def clean_data_for_streamlit(data,date):
     '''
         Return a dataframe cleaned up visually for Streamlit app
     '''
-    '''
-        Return a dataframe cleaned up visually for Streamlit app
-    '''
+    
     new_df = data[data['date'] == date] # Subset date
     new_df = new_df[new_df['home'] == 1].reset_index(drop=True) # Keep home records
     new_df = new_df.drop(['season','date','home','target','game_id','won'],axis=1) # eventually drop season and date
