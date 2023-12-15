@@ -4,6 +4,9 @@ import streamlit as st
 from src_files.IV_Streamlit_Prep import execute_streamlit_data, get_matchups
 
 def main():
+    '''
+     Return all components of Streamlit site (i.e. launch Streamlit)
+    '''
 
     cur_dir = os.path.dirname(os.path.abspath(__file__)) # Get the directory of the current script
     data_dir = os.path.join(cur_dir, '..', 'data') # Navigate up one directory to get data directory
@@ -12,6 +15,7 @@ def main():
     given_dates = ['2023-04-09','2023-04-08','2023-04-07','2023-04-06','2023-04-05'] # Final 5 dates of the 2023 NBA regular season
    
 
+    # Glosasry for basic and advanced statistics, used for third column
     basic_stats_glossary = {'PTS':'Points','FG':'Field Goals','FGA':'Field Goal Attempts','FG%':'Field Goal Percentage','3P':'3-Point Field Goals',
     '3PA': '3-Point Field Goal Attempts','3P%':'3-Point Field Goal Percentage','FT':'Free Throws','FTA':'Free Throw Attempts',
     'FT%':'Free Throw Percentage','ORB':'Offensive Rebounds','DRB':'Defensive Rebounds','TRB':'Total Rebounds','AST':'Assists','STL':'Steals',
@@ -26,7 +30,7 @@ def main():
 
     col1,col2,col3 = st.columns([1.5,1.5,1])
 
-    with col1:
+    with col1: # First column contains all user buttons and dropdowns 
         date_option = st.selectbox('Select Date:', given_dates)
         all_matchups = get_matchups(nba_clean_data,date_option)
         matchup_option = st.radio('Select Matchup (Home vs. Away):',(all_matchups.keys()))
@@ -35,7 +39,7 @@ def main():
         window_option = st.radio('Sample Size (Rolling Averages):',(2,3,4,5))
 
 
-    with col2:
+    with col2: # Second column contains the statistics 
         if stat_option == 'Basic':
             if average_option == 'Averages': # Basic Averages
                 basic_averages = execute_streamlit_data(nba_clean_data,date_option,None,return_averages=True,return_basic=True)
@@ -59,7 +63,7 @@ def main():
                 st.write(f"Head-to-Head {stat_option} {average_option}")
                 st.dataframe(matchup,hide_index=True,width=200,height=490)
 
-    with col3:
+    with col3: # Third column for glossary/legend
         glossary_option = st.toggle('Show Legend')
         if glossary_option:
             if average_option == 'Averages':
