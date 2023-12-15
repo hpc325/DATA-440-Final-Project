@@ -1,5 +1,16 @@
 # DATA-440-Final-Project: NBA GameDay
 
+### How To Run NBA GameDay:
+
+1) Download zip file and navigate to the 'DATA-440-Final-Project' folder
+2) Run:
+  > pipenv install --ignore-pipfile
+4) Run:
+  > pipenv shell
+5) Run:
+  > streamlit run VI_execute_app.py
+---
+
 My initial premise was to predict the winner of NBA games using Machine Learning. I still will pursue this project on my own accord, but due to the time remaining in the semester, I’m pivoting to a new project: NBA GameDay
 
 NBA GameDay is a Streamlit website that displays a dashboard of team statistics for the 2023-2024 NBA games on the current day. Users can look at a variety of statistics for the given teams playing each other, from basic statistics like Points Per Game, to more advanced statistics like True Shooting%, along with information on the team’s head-to-head history against each other. This platform allows anyone from the casual to the die-hard basketball fan to have readily-available information about their favorite games before they start, whether for their own entertainment or maybe before (responsibly) placing a wager.
