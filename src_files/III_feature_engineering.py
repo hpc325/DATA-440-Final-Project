@@ -21,7 +21,9 @@ def separate_team_and_opponent(data):
     return team_df,opp_df
 
 def create_team_averages(data,num_games=3,rolling_average=False):
-    
+    '''
+    Separate the team averages from the 'opp' (opponent) averages, compute the average or rolling average, and return respective dataframe
+    '''
     data = data.sort_values(['team','season','date']).reset_index(drop=True) # Need to order by team, season, and date
     meta_vars = ['team','season','date','home','won','target','game_id']
     meta_vars_df = data[meta_vars].reset_index(drop=True)
@@ -42,7 +44,9 @@ def create_team_averages(data,num_games=3,rolling_average=False):
     return final_df
 
 def create_opp_averages(data,num_games=3,rolling_average=False):
-    
+    '''
+        Conversely, compute the averages or rolling averages for the opposing teams, and return respectively dataframe
+    '''
     data = data.sort_values(['team_opp','season','date']).reset_index(drop=True) # Need to order by team, season, and date
     meta_vars = ['team_opp','season','date','game_id'] # Less meta vars for opponent averages
     meta_vars_df = data[meta_vars].reset_index(drop=True)
@@ -77,9 +81,15 @@ def concat_calculations(team_calc_df,opp_calc_df):
 
 def execute_feature_engineering(data,num_games=3,averages=False,rolling_averages=False):
     '''
-        Execute feature engineering for calculating either general averages or rolling averages; 
+        Execute feature engineering for calculating either general averages or rolling averages
+
+        Returns dataframe with the averages or rolling averages for both the given and opposing team
+            Note: The separation of the given team (col name = 'team') vs opposing team is necessary to calculate the correct averages;
+            have to apply the groupby function for 'team' and 'team_opp' separately.
         
         num_games = number of games wanted to calculate rolling average (if set to True)
+        averages = True; return averages
+        rolling_averages = True, return rolling averages for given window
         Note: averages or rolling_averages have to equal True
     '''
     team_df, opp_df = separate_team_and_opponent(data)
