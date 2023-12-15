@@ -7,7 +7,7 @@ def main():
 
     cur_dir = os.path.dirname(os.path.abspath(__file__)) # Get the directory of the current script
     data_dir = os.path.join(cur_dir, '..', 'data') # Navigate up one directory to get data directory
-    data_path = os.path.join(data_dir, 'copy_cleaned_nba_data.csv')
+    data_path = os.path.join(data_dir, 'cleaned_nba_data.csv')
     nba_clean_data = pd.read_csv(data_path)
     given_dates = ['2023-04-09','2023-04-08','2023-04-07','2023-04-06','2023-04-05'] # Final 5 dates of the 2023 NBA regular season
    
