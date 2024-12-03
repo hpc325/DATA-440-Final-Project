@@ -1,5 +1,36 @@
 import pandas as pd
 
+## Feature Engineering Pipeline Function
+def execute_feature_engineering(data,num_games=3,averages=False,rolling_averages=False):
+    '''
+        Execute feature engineering for calculating either general averages or rolling averages
+
+        Returns dataframe with the averages or rolling averages for both the given and opposing team
+            Note: The separation of the given team (col name = 'team') vs opposing team is necessary to calculate the correct averages;
+            have to apply the groupby function for 'team' and 'team_opp' separately.
+        
+        num_games = number of games wanted to calculate rolling average (if set to True)
+        averages = True; return averages
+        rolling_averages = True, return rolling averages for given window
+        Note: averages or rolling_averages have to equal True
+    '''
+    team_df, opp_df = separate_team_and_opponent(data)
+    
+    if averages:
+        team_df = create_team_averages(team_df)
+        opp_df = create_opp_averages(opp_df)
+    if rolling_averages:
+        team_df = create_team_averages(team_df,num_games,True)
+        opp_df = create_opp_averages(opp_df,num_games,True)
+    
+    final_df = concat_calculations(team_df,opp_df) 
+    return final_df
+
+
+########################################################################################################
+## Support Functions for Pipeline
+########################################################################################################
+
 
 def separate_team_and_opponent(data):
     '''
@@ -79,27 +110,3 @@ def concat_calculations(team_calc_df,opp_calc_df):
     return combined_df
 
 
-def execute_feature_engineering(data,num_games=3,averages=False,rolling_averages=False):
-    '''
-        Execute feature engineering for calculating either general averages or rolling averages
-
-        Returns dataframe with the averages or rolling averages for both the given and opposing team
-            Note: The separation of the given team (col name = 'team') vs opposing team is necessary to calculate the correct averages;
-            have to apply the groupby function for 'team' and 'team_opp' separately.
-        
-        num_games = number of games wanted to calculate rolling average (if set to True)
-        averages = True; return averages
-        rolling_averages = True, return rolling averages for given window
-        Note: averages or rolling_averages have to equal True
-    '''
-    team_df, opp_df = separate_team_and_opponent(data)
-    
-    if averages:
-        team_df = create_team_averages(team_df)
-        opp_df = create_opp_averages(opp_df)
-    if rolling_averages:
-        team_df = create_team_averages(team_df,num_games,True)
-        opp_df = create_opp_averages(opp_df,num_games,True)
-    
-    final_df = concat_calculations(team_df,opp_df) 
-    return final_df
